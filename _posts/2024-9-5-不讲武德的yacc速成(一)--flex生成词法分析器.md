@@ -69,7 +69,7 @@ lex.l  scanner.cpp  scanner.hpp # scanner.cpp scanner.hpp 就是生成的文件
 &emsp;&emsp;&emsp;那有人就要问了，\<iostream\>不是c++的用法吗？你说没有c++用法，我缺的c++这块谁给我补啊？<br>
 &emsp;&emsp;**直接上图**
 ![yacc1-3](https://www.helloimg.com/i/2024/09/07/66dbb18d8253c.png)
-&emsp;&emsp;&emsp;从469行到473行就是设置的预编译内容，这一块由于**自动生成的**，而是flex拷贝的。预编译内容flex用不上，但后面我们会用。<br>
+&emsp;&emsp;&emsp;从469行到473行就是设置的预编译内容，这一块不是**自动生成的**，而是flex拷贝的。预编译内容flex用不上，但后面我们会用。<br>
 &emsp;&emsp;&emsp;该部分的最后一点，也是非常重要的一点，有关于lex.l中怎么使用注释，**先说明上面的注释全是错的**。<br>
 &emsp;&emsp;**先上示例**
 ```c
@@ -154,5 +154,5 @@ int yywrap(){
 &emsp;&emsp;&emsp;首先，大部分编辑器对.l文件不支持，所以在.l文件里编辑极为痛苦，我们期望尽可能减少编辑.l文件的时间。<br>
 &emsp;&emsp;&emsp;其次，编辑动作函数也不是一件容易的事情，思考如何让输出的token流方便后续语法分析和语义分析，会花费大量的时间。<br>
 &emsp;&emsp;&emsp;最后，很现实的一点是，yacc的另一个工具bison(用于生成语法分析器)可以实现动作的自动生成。比如已知bison生成了 "parse.hpp" "parse.cpp"(不全是动作的定义)，那么在预编译部分直接```#include```就可以使用这些动作。<br>
-
+&emsp;&emsp;&emsp;关于```int yywrap()```函数，这是一个已经被声明的函数，在这里只需要定义一下它的返回值为1或者0。返回1表示在一个文件流结束，返回EOF时，不再继续读入字符，也就是仅读入单文件。使用```%option noyywrap```和返回1是一样的效果，而且不需要对yywrap()进行额外的编辑。
 #### ---END
