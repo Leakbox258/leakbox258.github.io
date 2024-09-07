@@ -2,12 +2,12 @@
 layout: post
 title: "不讲武德的yacc速成(一)--flex生成词法分析器的结构"
 date:   2024-9-5
-tags: [tag1, tag2]
+tags: [编译技术]
 comments: true
 author: 久菜合子
 ---
 
-# 不讲武德的yacc速成(一)--flex生成词法分析器
+
 &emsp;前排提示1：如果发现有什么和你理解的不一样，请狠狠拷打作者
 &emsp;前排提示2：本文将**无法**帮你完成icoding编译原理实验
 ## Step0 flex介绍

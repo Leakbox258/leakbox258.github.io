@@ -2,12 +2,11 @@
 layout: post
 title: "CNSS2024夏令营'命运石之门'writeup"
 date:   2024-9-6
-tags: [tag1, tag2]
+tags: [CTF]
 comments: true
-author: xxx
+author: 久菜合子
 ---
 
-# CNSS2024夏令营pwn '命运石之门' 题解
 
 ## **Step0 题目信息**
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;![pwn1.png](https://vip.helloimg.com/i/2024/08/31/66d284e2dd66c.png)
