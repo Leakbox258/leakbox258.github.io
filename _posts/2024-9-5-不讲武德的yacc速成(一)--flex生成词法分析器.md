@@ -10,18 +10,18 @@ author: 久菜合子
 
 &emsp;前排提示1：如果发现有什么和你理解的不一样，请狠狠拷打作者
 &emsp;前排提示2：本文将**无法**帮你完成icoding编译原理实验
-## Step0 flex介绍
+### Step0 flex介绍
 &emsp;&emsp;&emsp;众所周知，词法分析是编译器前端的起点。以SysY(可以简单理解为C语言的一个子集)为例, 词法分析将所有制表符和空格(字符串内除外)消除, 将剩余字符划分为被称为token的区域......总之, 经过词法分析器的作用, 源程序向着机器友好的进了一步。
 &emsp;&emsp;&emsp;token(词法单元)由一个词法单元名和一个可选属性值组成(龙书第二版p69)。所以token是一个键值对, 大概为\<id, attribute\>, 注意其中attribute值可以为None, 也可以是一个结构化数据。
 &emsp;&emsp;&emsp;而关于id, 一般认为源代码中的标识符就可以当作id, 但这引发一个问题, 应该为这个id划分多少空间? gcc中标识符不限制长度, MSVC限制2048个字节, 无论是那一个把标识符字符串直接当作id都有些不可取, 所以取而代之本人认为将字符(串)指针当作id更为合适。并且将指针当作id也该能方便编译器剥除(stripped)符号表, 因为注意到IDA反编译无符号表文件时, 产生的id都是位置相关的, 如sub_40036、UNK_40800之类。
 &emsp;&emsp;&emsp;龙书89页介绍了词法分析器生成工具Lex。 而Flex是Lex的升级版，效率更高且bug少，同时Flex兼容Lex的规则。
-## Step1 flex在yacc工具链中的角色
+### Step1 flex在yacc工具链中的角色
 &emsp;&emsp;&emsp;首先知道Flex是一个翻译工具，而不是C/C++的第三方库，你无法以简单的预编译include的方式使用Flex。
 &emsp;&emsp;&emsp;Flex/Lex源文件以 .l 结尾用于标识。龙书p89介绍了Lex程序的文件流
 ![](https://www.helloimg.com/i/2024/09/07/66dba6da11312.png)
 &emsp;&emsp;&emsp;由框图可知，Lex生成的a.out为一个可执行文件。但在实际使用时，单个可执行文件可能无法完全满足需求。所以为了提升复用性，打开a.out这个黑盒，Flex编译器提供了其他目标文件的选择，可以指定outfile 和 headfile的生成，至于生成的outfile 和 headfile 是什么**语法结构（文件类型）**，这里先按下不表。
 &emsp;&emsp;&emsp;
-## Step1 lex.l文件格式
+### Step2 lex.l文件格式
 &emsp;&emsp;&emsp;lex.l文件分为三个部分，每个部分使用 "%%" 分割，也就是会有两处 "%%" 将整个文本分为三部分
 &emsp;&emsp;&emsp;先贴一张示范文件，来自龙书p91
 ![yacc1-2](https://www.helloimg.com/i/2024/09/07/66dba9d3c0fd5.png)

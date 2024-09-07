@@ -8,7 +8,7 @@ author: 久菜合子
 ---
 
 
-## **Step0 题目信息**
+### **Step0 题目信息**
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;![pwn1.png](https://vip.helloimg.com/i/2024/08/31/66d284e2dd66c.png)
 &emsp;初始分数为1000分
 &emsp;
@@ -16,7 +16,7 @@ author: 久菜合子
 &emsp;如你所见，没有任何hint，从描述上也看不出所以然
 &emsp;
 
-## **Step1 文件检查**
+### **Step1 文件检查**
 #### &emsp;获取附件:
 &emsp;&emsp;&emsp;attachment：***[elf可执行文件](https://github.com/3033680748/3033680748.github.io/blob/main/attachments/Steins%3BGate/attachment)***
 &emsp;&emsp;&emsp;libc：***[libc.so.6](https://github.com/3033680748/3033680748.github.io/blob/main/attachments/Steins%3BGate/libc.so.6)***
@@ -30,14 +30,14 @@ author: 久菜合子
 #### &emsp;配置本地调试环境：
 &emsp;&emsp;&emsp;略，因为缺少链接器ld，而且远程版本未知
 
-## **Step1.5 补充一点前置知识**
+### **Step1.5 补充一点前置知识**
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;个人理解，可以先跳过这一部分内容
 #### &emsp;fork()函数：
 &emsp;&emsp;&emsp;用于在程序执行中生成另一个进程（子进程）<br>&emsp;&emsp;&emsp;从fork()函数产生的效果来看，fork()最大的特点在于不需要指定子进程如何运行，子进程的内存布局和内容与父进程完全一致，无论数据还是指令，并且子进程的执行流会jmp到fork()之后。<br>&emsp;&emsp;&emsp;在父进程中，fork()将返回子进程的pid；在子进程中，则会返回0<br>&emsp;&emsp;&emsp;有关fork()的具体逻辑可以参考[Linux系统——fork()函数详解(看这一篇就够了！！！)](https://blog.csdn.net/cckluv/article/details/109169941)，可以重点关注一下**写时拷贝技术**的内容。<br>&emsp;&emsp;&emsp;子进程和父进程既然有一样的内存，也就保存了一些共同的关键信息，如canary、aslr和pie的偏移等。此时就可以尝试破解出这些信息，即使这些操作会造成子进程异常退出，也不会影响父进程，反之亦然，只需要有一个进程getshell任务就算完成了。
 #### &emsp;wait()函数：
 &emsp;&emsp;&emsp;当程序步入wait()函数后，会暂停执行，等到有特定信号或者**子进程**退出时，才会继续执行剩余的指令<br>&emsp;&emsp;&emsp;特别了解一下wait(0)的使用，它会使父进程等待子进程的退出，而且不论是正常退出还是异常退出
 
-## **Step2 使用 "那个女人 Pro 8.3" 静态分析**
+### **Step2 使用 "那个女人 Pro 8.3" 静态分析**
 #### &emsp;概况
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;![ida1.png](https://vip.helloimg.com/i/2024/08/31/66d284e2b5779.png)
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;got表里又出现了最爱的system
@@ -65,7 +65,7 @@ author: 久菜合子
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;![ida_baddoor.png](https://vip.helloimg.com/i/2024/08/31/66d2bd54a8516.png)
 &emsp;&emsp;&emsp;啥也不是，仅仅是提供了system()，"/bin/su"位于.rodata段没法修改
 
-## **Step3 漏洞分析**
+### **Step3 漏洞分析**
 #### &emsp;存在以下可以利用漏洞：
 &emsp;&emsp;&emsp;timeMachine()::11处栈溢出，并且由于-no-pie，代码段固定，可以控制ret_addr的最低一位，劫持控制流。从ida中可知ret_addr可劫持为0x4012XX, 这个范围包含setDest()全部和main()::17（不包括）之前的内容，可以借助main()中的内容启动main()::6的fork()以及main()::11的timeMachine()
 &emsp;&emsp;&emsp;setDest()::4以及timeMachine()::8实现了任意地址写，借助全局变量timeline的自增和劫持控制流可以实现从目标位置开始一个一个字节的修改
@@ -136,7 +136,7 @@ io.send(payload)
 payload = b'a'*0x18 + p8(0x48) # 0x401248 ret, ret到了一个非法地址，子程序退出
 io.send(payload)
 ```
-## **Step4 完整exp**
+### **Step4 完整exp**
 &emsp;&emsp;&emsp;ps: libc.so.6全程旁观
 ![conversation.png](https://vip.helloimg.com/i/2024/08/31/66d2d61bc081c.png)
 ```python
