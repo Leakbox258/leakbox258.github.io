@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "不讲武德的yacc速成(一)--flex生成词法分析器的结构"
+title: "yacc速成(一)--flex生成词法分析器的结构"
 date:   2024-9-5
 tags: [编译技术]
 comments: true
