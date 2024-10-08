@@ -6,7 +6,14 @@ tags: [编译技术]
 comments: true
 author: 久菜合子
 ---
-
+<style>
+h1 { font: 26pt Consolas !important; }
+h2 { font: 22pt Consolas !important; }
+h3 { font: 16pt Consolas !important; }
+h4 { font: 14pt Consolas !important; }
+h5 { font: 12pt Consolas !important; }
+p { font: 12pt Consolas !important; }
+</style>
 
 &emsp;前排提示1：如果发现有什么和你理解的不一样，请狠狠拷打作者<br>
 &emsp;前排提示2：本文将**无法**帮你完成icoding编译原理实验<br>

@@ -6,7 +6,14 @@ tags: [CTF]
 comments: true
 author: 久菜合子
 ---
-
+<style>
+h1 { font: 26pt Consolas !important; }
+h2 { font: 22pt Consolas !important; }
+h3 { font: 16pt Consolas !important; }
+h4 { font: 14pt Consolas !important; }
+h5 { font: 12pt Consolas !important; }
+p { font: 12pt Consolas !important; }
+</style>
 
 ### **Step0 题目信息**
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;![pwn1.png](https://vip.helloimg.com/i/2024/08/31/66d284e2dd66c.png)
