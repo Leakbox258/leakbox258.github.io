@@ -7,14 +7,6 @@ comments: true
 author: 久菜合子
 ---
 
-<style>
-h1 { font: 26pt Consolas !important; }
-h2 { font: 22pt Consolas !important; }
-h3 { font: 16pt Consolas !important; }
-h4 { font: 14pt Consolas !important; }
-h5 { font: 12pt Consolas !important; }
-p { font: 12pt Consolas !important; }
-</style>
 
 #### 参考资料：
 实例文件为boss题的attachment
