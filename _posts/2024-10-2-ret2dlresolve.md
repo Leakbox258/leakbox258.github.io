@@ -2,7 +2,7 @@
 layout: post
 title: "ret2resolve学习 + CNSS2024 pwn boss wp"
 date:   2024-10-2
-tags: [CTF]
+tags: [CTF, pwn]
 comments: true
 author: 久菜合子
 ---
