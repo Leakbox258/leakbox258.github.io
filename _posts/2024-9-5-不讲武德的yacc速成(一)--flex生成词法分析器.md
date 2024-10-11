@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "yacc速成(一)--flex生成词法分析器的结构"
+title: "flex自动生成词法分析器"
 date:   2024-9-5
-tags: [编译技术]
+tags: [编译技术, 词法分析]
 comments: true
 author: 久菜合子
 ---
