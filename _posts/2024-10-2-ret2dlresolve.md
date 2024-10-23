@@ -10,10 +10,10 @@ author: 久菜合子
 
 #### 参考资料：
 实例文件为boss题的attachment
-https://zhuanlan.zhihu.com/p/37572651
-https://ctf-wiki.org/executable/elf/structure/basic-info/
-https://deepunk.icu/dl%E7%9B%B8%E5%85%B3%E6%94%BB%E5%87%BB%E6%B1%87%E6%80%BB/
-https://www.soinside.com/question/AENBEApAgMMbfzPviVeoBc
+https://zhuanlan.zhihu.com/p/37572651<br>
+https://ctf-wiki.org/executable/elf/structure/basic-info/<br>
+https://deepunk.icu/dl%E7%9B%B8%E5%85%B3%E6%94%BB%E5%87%BB%E6%B1%87%E6%80%BB/ <br>
+https://www.soinside.com/question/AENBEApAgMMbfzPviVeoBc <br>
 
 ### 动态链接程序的装载
 ##### &emsp;&emsp;&emsp;当程序使用动态链接时，才会存在延迟绑定技术。<br>&emsp;&emsp;&emsp;一个动态链接的程序，除了要将程序本身加载进内存之外，还需要加载对应使用的libc，这一步由ld动态链接器实现。<br>&emsp;&emsp;&emsp;由于动态链接信息与程序的形成和加载由莫大关系，所以在linux系统下，这些信息必须在二进制文件中明确写出，而不是存放在某个PATH中。
