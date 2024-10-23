@@ -9,7 +9,7 @@ author: 久菜合子
 
 
 #### 参考资料：
-实例文件为boss题的attachment
+实例文件为boss题的attachment，见github<br>
 https://zhuanlan.zhihu.com/p/37572651<br>
 https://ctf-wiki.org/executable/elf/structure/basic-info/<br>
 https://deepunk.icu/dl%E7%9B%B8%E5%85%B3%E6%94%BB%E5%87%BB%E6%B1%87%E6%80%BB/ <br>
