@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ret2resolve学习 + CNSS2024 pwn boss wp"
+title: "glibc动态链接重定位 + CNSS2024 pwn boss wp"
 date:   2024-10-2
 tags: [CTF, pwn]
 comments: true
