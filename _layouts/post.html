@@ -1,6 +1,6 @@
----
+<!-- ---
 layout: default
----
+--- -->
 
 <article class="posts">
   
@@ -45,12 +45,14 @@ layout: default
       distractionFreeMode: false,  // Facebook-like distraction free mode
       title: "{{ page.title }}",
       language: "zh-CN",
-
+      autoExpand: true,
+      sort: "latest",
+      avatar: 'gravatar', 
     })
     
     gitalk.render('gitalk-container')
   </script>
-  
+
 </article>
 
 <div class="pagination">
