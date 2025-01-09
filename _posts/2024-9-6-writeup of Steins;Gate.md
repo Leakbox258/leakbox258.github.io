@@ -2,7 +2,7 @@
 layout: post
 title: "CNSS2024夏令营'命运石之门'writeup"
 date:   2024-9-6
-tags: [CTF, pwn]
+tags: [CTF, pwn, 水]
 comments: true
 author: 久菜合子
 ---
