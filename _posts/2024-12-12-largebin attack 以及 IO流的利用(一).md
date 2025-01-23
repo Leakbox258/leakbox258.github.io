@@ -406,7 +406,10 @@ edit(5,p64(libc_base + 0x21a0e0)*2 + p64(heap_base + 0x1370) + p64(heap_base + 0
 ##### &emsp;&emsp;&emsp;有几点细节需要注意.<br>
 ##### &emsp;&emsp;&emsp;第一, 这套基于```__malloc_assert```的打法在现在更高版本的glibc中已经不复存在了, 因为```__malloc_assert```被删除了, 但是largebin attack的其他方法, 比如FSOP依然可以<br>
 ##### &emsp;&emsp;&emsp;第二, stderr结构体指针有时不在libc中, 而是在```.bss```段中. 出现这种情况一般是使用了```setvbuf()```, 而不是```setbuf()```或者不使用. 这是因为```setvbuf()```会在源文件中使用三个```extern```变量指针, 在链接时被ld放入```.bss```段; 而```setbuf()```使用的三个指针放在```.got```内作为外部链接<br>
-##### &emsp;&emsp;&emsp;第三, 由于largebin attack写入的是chunk head的地址, 再加上前4个字长的large bin的信息, 所以导致将这个堆块看作一个IO_FILE_PLUS时, 它的_flag(前16字节), 以及_IO_read_ptr, _IO_read_end, _IO_read_base, _IO_write_base(各八个字节)实际上是难以控制的, 除非有heap overflow或者UAF之类漏洞, *但是即使这样也不会影响这种攻击方法的使用*.
+##### &emsp;&emsp;&emsp;第三, 由于largebin attack写入的是chunk head的地址, 再加上前4个字长的large bin的信息, 所以导致将这个堆块看作一个IO_FILE_PLUS时, 它的_flag(前8字节), 以及_IO_read_ptr, _IO_read_end, _IO_read_base, _IO_write_base, _IO_write_ptr(各八个字节)实际上是难以控制的, 除非有heap overflow或者UAF之类漏洞, *但是即使这样也不会影响这种攻击方法的使用*.
 
 ### &emsp;FSOP
-##### &emsp;&emsp;&emsp;会补吗? 会补的.
+##### &emsp;&emsp;&emsp;一个比较古老的漏洞，但是进入“虚表偏移时代”之后FSOP的形式出现了一些不同<br>
+##### &emsp;&emsp;&emsp;FSOP利用的两个部分，第一是它的调用链，第二是触发FSOP
+#### &emsp;FSOP利用的调用链
+#### &emsp;FSOP触发方式
