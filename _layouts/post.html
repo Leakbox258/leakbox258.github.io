@@ -48,12 +48,12 @@ layout: default
       owner: 'Leakbox258',
       admin: ['Leakbox258'],
       id: md5(location.pathname),                    // 使用 md5 处理路径
-      title: 'gitalk作为评论工具，在Jekyll个人网站上使用',                     // 文章标题,这里是通过YAML front matter获取的
-      body: '文章链接：' + location.href,             // 文章链接，这里是通过JavaScript的location这个API获取的
-      labels: ['Gitalk'].concat(tags),               // 只使用有效的标签
-      language: 'zh-CN',
-      perPage: 10,
-      distractionFreeMode: false // 是否启用无干扰模式
+      // title: 'gitalk作为评论工具，在Jekyll个人网站上使用',                     // 文章标题,这里是通过YAML front matter获取的
+      // body: '文章链接：' + location.href,             // 文章链接，这里是通过JavaScript的location这个API获取的
+      // labels: ['Gitalk'].concat(tags),               // 只使用有效的标签
+      // language: 'zh-CN',
+      // perPage: 10,
+      distractionFreeMode: true // 是否启用无干扰模式
     });
 
     gitalk.render('gitalk-container');
