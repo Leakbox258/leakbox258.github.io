@@ -28,8 +28,37 @@ layout: default
     {{ content }}
   </div>
 
-  {% include disqus.html %}
-  {% include gitalk.html %}
+  <!-- {% include disqus.html %} -->
+  <!-- {% include gitalk.html %} -->
+
+  <div id="gitalk-container"></div>
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk@latest/dist/gitalk.min.js"></script>
+  <script src="/js/md5.min.js"></script>
+  <script type="text/javascript">
+    // 处理标签，过滤掉空值和无效值
+    var tagsString = '["Jekyll","Gitalk","博客","GitHub pages"]';  // 使用 jsonify 过滤器
+    var tags = JSON.parse(tagsString).filter(function (tag) {
+      return tag && tag.trim() !== '' && !tag.includes('/');  // 过滤掉包含斜杠的标签
+    });
+    var gitalk = new Gitalk({
+      clientID: 'Ov23li5oRbrtcyhdmuAK',
+      clientSecret: '1daaf02df9b4a1a2925f8cbbf7046840ba38c9f5',
+      repo: 'https://github.com/Leakbox258/Leakbox.github.io',
+      owner: 'Leakbox258',
+      admin: ['Leakbox258'],
+      id: md5(location.pathname),                    // 使用 md5 处理路径
+      title: 'gitalk作为评论工具，在Jekyll个人网站上使用',                     // 文章标题,这里是通过YAML front matter获取的
+      body: '文章链接：' + location.href,             // 文章链接，这里是通过JavaScript的location这个API获取的
+      labels: ['Gitalk'].concat(tags),               // 只使用有效的标签
+      language: 'zh-CN',
+      perPage: 10,
+      distractionFreeMode: false // 是否启用无干扰模式
+    });
+
+    gitalk.render('gitalk-container');
+  </script>
+
 </article>
 
 <div class="pagination">
