@@ -1,8 +1,8 @@
 name: "leakbox's blog"
 description: "久菜合子的个人博客"
 
-avatar: https://Leakbox258.github.io/images/avatar.png
-favicon: https://Leakbox258.github.io/images/favicon.ico
+avatar: https://Leakbox.github.io/images/avatar.png
+favicon: https://Leakbox.github.io/images/favicon.ico
 
 navigation:
   - name: 首页
@@ -20,14 +20,14 @@ footer-links:
   zhihu:
   email: 3033680748@qq.com
   facebook:
-  github: 3033680748
+  github: Leakbox258
   rss: # just type anything here for a working RSS icon
   twitter: 
   youtube:
 
 footer-text: Copyright (c) 2024 久菜合子
 
-url: https://3033680748.github.io
+url: https://leakbox258.github.io/Leakbox.github.io/
 
 permalink: /:title/
 paginate_path: /page:num/
