@@ -850,11 +850,11 @@ footer .svg-icon em {
 
 pre,
 code {
-    font-family: "Consolas", "Courier New", "Monaco", "Spoqa Han Sans", monospace;
+    font-family: "Consolas", "Menlo", "Courier New", "Monaco", "Spoqa Han Sans", monospace;
 }
 
 code.highlighter-rouge {
-    font-size: 90%;
+    font-size: 100%;
     color: #364fc7;
     background-color: #f1f3f5;
     padding: .1em .2em;
