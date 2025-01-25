@@ -44,9 +44,9 @@ layout: default
     var gitalk = new Gitalk({
       clientID: 'Ov23li5oRbrtcyhdmuAK',
       clientSecret: '1daaf02df9b4a1a2925f8cbbf7046840ba38c9f5',
-      repo: 'blog-comments',
+      repo: 'leakbox258.github.io',
       owner: 'Leakbox258',
-      admin: 'Leakbox258',
+      admin: ['Leakbox258'],
       id: md5(location.pathname),                    // 使用 md5 处理路径
       title: 'gitalk作为评论工具，在Jekyll个人网站上使用',                     // 文章标题,这里是通过YAML front matter获取的
       body: '文章链接：' + location.href,             // 文章链接，这里是通过JavaScript的location这个API获取的
