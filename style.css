@@ -850,7 +850,7 @@ footer .svg-icon em {
 
 pre,
 code {
-    font-family: "Menlo", "Courier New", "Monaco", "Spoqa Han Sans", monospace;
+    font-family: "Consolas", "Courier New", "Monaco", "Spoqa Han Sans", monospace;
 }
 
 code.highlighter-rouge {

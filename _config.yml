@@ -1,8 +1,8 @@
 name: "leakbox's blog"
 description: "久菜合子的个人博客"
 
-avatar: https://github.com/Leakbox258/Leakbox.github.io/blob/main/images/avatar.png?raw=true
-favicon: https://github.com/Leakbox258/Leakbox.github.io/blob/main/images/favicon.ico?raw=true
+avatar: /images/avatar.png
+favicon: /images/favicon.ico
 
 navigation:
   - name: 首页
