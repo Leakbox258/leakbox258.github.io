@@ -193,7 +193,7 @@ h1,
 h2,
 h3,
 h5 {
-    font-family: "Consolas", "Menlo", "Courier New", "Monaco", "Spoqa Han Sans", monospace;
+    font-family: "Consolas", "Menlo", "Courier New", "Monaco", "Spoqa Han Sans", "monospace";
     font-weight: bold;
 }
 
@@ -851,7 +851,7 @@ footer .svg-icon em {
 
 pre,
 code {
-    font-family: "Consolas", "Menlo", "Courier New", "Monaco", "Spoqa Han Sans", monospace;
+    font-family: "Consolas", "Menlo", "Courier New", "Monaco", "Spoqa Han Sans", "monospace";
 }
 
 code.highlighter-rouge {
