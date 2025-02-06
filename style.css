@@ -193,6 +193,7 @@ h1,
 h2,
 h3,
 h5 {
+    font-family: "Consolas", "Menlo", "Courier New", "Monaco", "Spoqa Han Sans", monospace;
     font-weight: bold;
 }
 
@@ -214,7 +215,7 @@ h3 {
 
 h4 {
     font-size: 20px;
-    color: #868e96;
+    color: #0a0b0b;
 }
 
 h6 {
