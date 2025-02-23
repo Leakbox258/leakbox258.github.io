@@ -270,7 +270,7 @@ struct _IO_FILE_plus
   const struct _IO_jump_t *vtable;
 };
 ```
-##### &emsp;&emsp;&emsp;具体是那种结构, 猜测可能与使用的文件open函数有关, 但是没试过. 无论如何, 要伪造的stderr是```_IO_FILE_COMPLETE + vtable``` 的样式<br>&emsp;&emsp;&emsp;此外, 存在一个指向```_IO_FILE_plus```结构体的```_IO_list_all```指针, 通常情况下指向```_IO_2_1_stderr```, 然后stderr又通过chain指向stdout, stdout指向stdin<br>&emsp;&emsp;&emsp;当出现了新的文件描述符, 会插入到这个链表的头部<br>
+##### &emsp;&emsp;&emsp;具体是那种结构, 猜测可能与使用的文件open函数有关, 但是没试过. 无论如何, 要伪造的stderr是```_IO_FILE_COMPLETE + vtable``` 的样式<br>&emsp;&emsp;&emsp;此外, 在libc中存在一个指向```_IO_FILE_plus```结构体的```_IO_list_all```指针, 通常情况下指向```_IO_2_1_stderr```, 然后stderr又通过chain指向stdout, stdout指向stdin<br>&emsp;&emsp;&emsp;当出现了新的文件描述符, 会插入到这个链表的头部<br>
 ##### &emsp;&emsp;&emsp;```_IO_jump_t```结构体, 有许多操作函数, 但是不同的```_IO_FILE_PLUS```, 可能会使用不同的虚表, stderr/stdout/stdin使用的是```_IO_file_jumps```
 ```C
 struct _IO_jump_t
@@ -358,7 +358,7 @@ fake_struct += p64(fake_io_addr + 0x40) #rax2
 
 payload = fake_struct + p64(0)*7 + p64(rop_addr) + p64(ret)
 ```
-##### &emsp;&emsp;&emsp;在具体使用时, 需要更改```fake_io_addr```为伪造的fake_IO的堆的地址, _IO_save_end为要调用的函数(即call_addr), _IO_backup_base为执行函数时的rdx, 以及修稿_flags(即rdi)为执行函数时的rdi<br>
+##### &emsp;&emsp;&emsp;在具体使用时, 需要更改```fake_io_addr```为伪造的fake_IO的堆的地址, _IO_save_end为要调用的函数(即call_addr), _IO_backup_base为执行函数时的rdx, 以及修改_flags(即rdi)为执行函数时的rdi<br>
 ##### &emsp;&emsp;&emsp;
 
 #### &emsp; __malloc_assert举例
@@ -411,5 +411,43 @@ edit(5,p64(libc_base + 0x21a0e0)*2 + p64(heap_base + 0x1370) + p64(heap_base + 0
 ### &emsp;FSOP
 ##### &emsp;&emsp;&emsp;一个比较古老的漏洞，但是进入“虚表偏移时代”之后FSOP的形式出现了一些不同<br>
 ##### &emsp;&emsp;&emsp;FSOP利用的两个部分，第一是它的调用链，第二是触发FSOP
-#### &emsp;FSOP利用的调用链
-#### &emsp;FSOP触发方式
+#### &emsp;触发IO
+##### &emsp;&emsp;&emsp;在伪造了相应结构之后, 想要进行FSOP, 让伪造数据被用上, 需要先进入IO流, 在高版本的glibc中, 一般有两种方式进入IO流: ```_IO_flush_all_lockp()```, 以及```house of kiwi```方法, ```house of kiwi```方法就是上面的```__malloc_assert```方法.
+#### &emsp;_IO_flush_all_lockp()方法
+##### &emsp;&emsp;&emsp;这种方法是FSOP的传统做法, ```_IO_flush_all_lockp()```会从```_IO_list_all```查找```IO_FILE```结构体, 然后分别对每个结构体flush, 这个过程中会使用虚表中的```_IO_overflow```<br>
+##### &emsp;&emsp;&emsp;触发这个函数又有一些办法, 但是在高版本glibc中砍得七七八八, 基本只剩下程序使用```exit()```退出这一种比较常见又方便利用的方法<br>
+##### &emsp;&emsp;&emsp;精简代码
+```c
+int _IO_flush_all_lockp (int do_lock){
+  ...
+  fp = (_IO_FILE *) _IO_list_all;
+  while (fp != NULL)
+  {
+       ...
+    if (((fp->_mode <= 0 && fp->_IO_write_ptr > fp->_IO_write_base)
+#if defined _LIBC || defined _GLIBCPP_USE_WCHAR_T
+       || (_IO_vtable_offset (fp) == 0
+           && fp->_mode > 0 && (fp->_wide_data->_IO_write_ptr
+                    > fp->_wide_data->_IO_write_base))
+#endif
+       )
+      && _IO_OVERFLOW (fp, EOF) == EOF)
+           {
+               result = EOF;
+          }
+        ...
+  }
+}
+```
+##### &emsp;&emsp;&emsp;其中```_IO_OVERFLOW```会使用虚表中```0x18```处的函数, 这就给我们可乘之机<br>
+##### &emsp;&emsp;&emsp;为了避免短路, 想要执行到```_IO_OVERFLOW```, 有两种选择条件:
+##### &emsp;&emsp;&emsp;第一种:
+##### &emsp;&emsp;&emsp;&emsp;1. ```fp->_mode <= 0```
+##### &emsp;&emsp;&emsp;&emsp;2. ```fp->_IO_write_ptr > fp->_IO_write_base``` 
+##### &emsp;&emsp;&emsp;第二种:
+##### &emsp;&emsp;&emsp;&emsp;1.``` _IO_vtable_offset(fp) == 0```
+##### &emsp;&emsp;&emsp;&emsp;2.```fp->_mode > 0```
+##### &emsp;&emsp;&emsp;&emsp;3. ```fp->_wide_data->_IO_write_ptr > fp->_wide_data->_IO_write_base```
+##### &emsp;&emsp;&emsp;但是在使用largebin attack的情况下, 第一种情况很难满足, 因为```_IO_write_ptr```和```_IO_write_base```在chunk中的位置是fd_nextsize和bk_nextsize的位置.<br>
+##### &emsp;&emsp;&emsp;所以一般是第二种实现起来更方便<br>
+##### &emsp;&emsp;&emsp;至于之前使用的模板, 只需要把伪造的```vtable + 0x10``` 改成 ```vtabel + 0x30```即可<br>
